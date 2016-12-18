@@ -23,6 +23,7 @@ public class EnemyMelee : MonoBehaviour {
 
 	public enum States {idle, pursuit, shooting, fleeing};
 	States currentState = States.idle;
+	States previousState = States.idle;
 
 	float coolTimer;
 	float cowardTimer;
@@ -39,12 +40,35 @@ public class EnemyMelee : MonoBehaviour {
 		thisEntity=gameObject.GetComponent<LivingEntity>();
 		mask = LayerMask.GetMask("Player");
 		rb2D = gameObject.GetComponent<Rigidbody2D>();
+		coolTimer = shotCooldown;
 	}
 
 	void Update(){
+		if(coolTimer>0){
+			coolTimer-=Time.deltaTime;
+			if(coolTimer<0){
+				coolTimer = 0;
+			}
+		}
+
+		if(rb2D.velocity.x<0){
+			Vector3 v = new Vector3(1,1,1);
+			transform.localScale = v;
+		}
+		if(rb2D.velocity.x>=0){
+			Vector3 v = new Vector3(-1,1,1);
+			transform.localScale = v;
+		}
+
+		if(anim!=null){
+		if(rb2D.velocity.x>0 || rb2D.velocity.y>0 && currentState!= States.idle){
+			anim.Play(moveAnim);
+		}else{
+			anim.Play(idleAnim);
+		}
+		}
 
 		switch(currentState){
-
 			case(States.idle):
 			colliders = Physics2D.OverlapCircle(transform.position,sightRadius,mask);
 			if(colliders!=null){
@@ -67,7 +91,12 @@ public class EnemyMelee : MonoBehaviour {
 			colliders_pursuit = Physics2D.OverlapCircle(transform.position,shootRadius,mask);
 			if(colliders_pursuit!=null){
 			if(colliders_pursuit.gameObject.tag =="Player"){
-					Shoot(tgt);
+					if(coolTimer == 0){
+						coolTimer=shotCooldown;
+						previousState = currentState;
+						currentState = States.shooting;
+						Shoot(tgt);
+					}
 				}
 			}
 		}else{
@@ -89,6 +118,19 @@ public class EnemyMelee : MonoBehaviour {
 			currentState = States.idle;
 			return;
 		}
+		if(ranged && shootWhileFleeing){
+			colliders_flee = Physics2D.OverlapCircle(transform.position,shootRadius,mask);
+			if(colliders_flee!=null){
+				if(colliders_flee.gameObject.tag =="Player"){
+					if(coolTimer == 0){
+						coolTimer=shotCooldown;
+						previousState = currentState;
+						currentState = States.shooting;
+						Shoot(tgt);
+					}
+				}
+			}
+		}
 		rb2D.AddForce(-1*(tgt.transform.position-transform.position)*runningSpeed);
 		colliders_flee = Physics2D.OverlapCircle(transform.position,sightRadius,mask);
 		if(colliders_flee!=null){
@@ -96,12 +138,20 @@ public class EnemyMelee : MonoBehaviour {
 			currentState = States.fleeing;
 		}else{
 			currentState = States.idle;
-		}
+			}
 		}
 	}
 
 	void Shoot(Transform t){
-
+		if(anim!=null){
+			anim.SetTrigger("attacking");
+			anim.Play(attackAnim);
+		}
+		var dir = t.position - transform.position;
+		var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+		Rigidbody2D b = Instantiate(projectile,transform.position,Quaternion.AngleAxis(angle, Vector3.forward)) as Rigidbody2D;
+		b.AddForce(b.transform.right*100);
+		currentState = previousState;
 	}
 
 	void OnCollisionEnter2D(Collision2D col){

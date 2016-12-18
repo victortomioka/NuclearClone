@@ -17,13 +17,25 @@ public class GenerateMap : MonoBehaviour {
 	public int roomWidthMin = 1, roomWidthMax = 4;
 	public int roomHeightMin = 1, roomHeightMax = 4;
 
+	[Header("Objects")]
+	[Range(0.0f,100.0f)]
+	public float obstacleFill;
+	[Range(0.0f,100.0f)]
+	public float enemyFill;
+	[Range(0.0f,100.0f)]
+	public float pickupFill;
+	public GameObject[] enemies;
+	public GameObject[] obstacles;
+	public GameObject[] pickups;
+
+
 	SpriteRenderer[,] rendMap;
 	GameObject[,] viewMap;
 	Room[] rooms;
 	Room[] shuffledRooms;
 	GameObject tileMaster;
 
-	public GameObject[] enemies;
+
 
 	void Start(){
 		createMap();
@@ -61,6 +73,8 @@ public class GenerateMap : MonoBehaviour {
 
 		createBorders ();
 		setupGraphics();
+
+		populateMap();
 
 		if(gameObject.GetComponent<GameController>().player!=null){GameObject.Destroy(gameObject.GetComponent<GameController>().player);}
 		gameObject.GetComponent<GameController>().spawnPlayer(width,height);
@@ -122,20 +136,6 @@ public class GenerateMap : MonoBehaviour {
 					map.tiles[(int)r.originX+x,(int)r.originY+y].thisTileType = Tile.TileType.Floor;
 				}
 			}
-			if(map.tiles[(int)r.originX,(int)r.originY].thisTileType == Tile.TileType.Floor
-			){
-				if(r!=rooms[0]){
-				spawnEnemy(r.originX,r.originY);
-				}
-			}
-		}
-	}
-
-	void spawnEnemy(int x,int y){
-		int index = Random.Range(0,enemies.Length);
-
-		if(enemies!=null){
-			GameObject newEnemy = Instantiate(enemies[index],new Vector3(x,y,0),transform.rotation) as GameObject;
 		}
 	}
 
@@ -232,6 +232,45 @@ public class GenerateMap : MonoBehaviour {
 		return sum;
 	}
 
+	void populateMap(){
+		for (int x = 0; x <= width; x++) {
+			for (int y = 0; y <= height; y++) {
+				if(map.tiles[x,y].thisTileType==Tile.TileType.Floor){
+				float chance = Random.Range(0,100);
+				if(chance<enemyFill){
+					spawnEnemy(map.tiles[x,y].x,map.tiles[x,y].y);
+				}else {
+				chance = Random.Range(0,100);
+				if(chance<obstacleFill){
+					spawnEnemy(map.tiles[x,y].x,map.tiles[x,y].y);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void spawnEnemy(int x,int y){
+		int index = Random.Range(0,enemies.Length);
+		if(enemies!=null){
+			GameObject newEnemy = Instantiate(enemies[index],new Vector3(x,y,0),transform.rotation) as GameObject;
+		}
+	}
+
+	void spawnObstacle(int x,int y){
+		int index = Random.Range(0,obstacles.Length);
+		if(enemies!=null){
+			GameObject newObstacle = Instantiate(obstacles[index],new Vector3(x,y,0),transform.rotation) as GameObject;
+		}
+	}
+
+	void spawnPickup(int x,int y){
+		int index = Random.Range(0,pickups.Length);
+		if(enemies!=null){
+			GameObject newPickup = Instantiate(pickups[index],new Vector3(x,y,0),transform.rotation) as GameObject;
+		}
+	}
+
 	void createBorders(){
 
 		for (int x = 0; x <= width; x++) {
@@ -253,8 +292,6 @@ public class GenerateMap : MonoBehaviour {
 			arr[r] = tmp;
 		}
 	}
-
-
 
 	Room roomSetup(){
 		Room _room = new Room();
