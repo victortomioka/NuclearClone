@@ -242,7 +242,7 @@ public class GenerateMap : MonoBehaviour {
 				}else {
 				chance = Random.Range(0,100);
 				if(chance<obstacleFill){
-					spawnEnemy(map.tiles[x,y].x,map.tiles[x,y].y);
+					spawnObstacle(map.tiles[x,y].x,map.tiles[x,y].y);
 						}
 					}
 				}

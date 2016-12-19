@@ -8,6 +8,8 @@ public class LivingEntity : MonoBehaviour, IDamageable {
 	int health;
 	Renderer rend;
 	bool vulnerable = true;
+	public bool isDead = false;
+	public bool kill = true;
 
 	void Start(){
 		health=maxHealth;
@@ -18,8 +20,8 @@ public class LivingEntity : MonoBehaviour, IDamageable {
 	public void takeDamage(int value){
 		if(vulnerable){
 		health-=value;
-		print(gameObject.name + " took "+value+" damage");
 			if(health<=0){
+				isDead = true;
 				Die();
 			}
 
@@ -36,18 +38,25 @@ public class LivingEntity : MonoBehaviour, IDamageable {
 	}
 
 	public void Die (){
-		if(gameObject.layer==8){
-			print("player died");
-			SceneManager.LoadScene("99_test");
-		}
-		if(gameObject.layer==9){
-			GameObject.Destroy(this.gameObject);
+		if(kill){
+			if(gameObject.layer==8){
+				print("player died");
+				SceneManager.LoadScene("99_test");
+			}else{
+				GameObject.Destroy(this.gameObject);
+			}
 		}
 	}
 
 	public float getHealthPercent(){
 		float perc = (health/maxHealth)*1.0f;
 		return perc;
+	}
+
+	public int getHealth {
+		get {
+			return health;
+		}
 	}
 
 	IEnumerator damageEffect(){
