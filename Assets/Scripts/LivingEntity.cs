@@ -41,7 +41,7 @@ public class LivingEntity : MonoBehaviour, IDamageable {
 		if(kill){
 			if(gameObject.layer==8){
 				print("player died");
-				SceneManager.LoadScene("99_test");
+				SceneManager.LoadScene("98_gameover");
 			}else{
 				GameObject.Destroy(this.gameObject);
 			}
