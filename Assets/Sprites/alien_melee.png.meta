@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 762291729e1db534d8e87cb0f1ca4036
-timeCreated: 1480280453
+guid: 4a0e3621fedff3346a65c8bca094cb64
+timeCreated: 1482195039
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,7 +11,7 @@ TextureImporter:
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -50,11 +50,14 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 64
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: alien_melee_0
+    - serializedVersion: 2
+      name: alien_melee_0
       rect:
         serializedVersion: 2
         x: 0
@@ -64,16 +67,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -17, y: 27}
-        - {x: -21, y: 23}
-        - {x: -21, y: -25}
-        - {x: -20, y: -32}
-        - {x: 10, y: -32}
-        - {x: 24, y: -8}
-        - {x: 24, y: 13}
-        - {x: 18, y: 27}
-    - name: alien_melee_1
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: alien_melee_1
       rect:
         serializedVersion: 2
         x: 64
@@ -83,17 +80,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 16, y: 27}
-        - {x: -15, y: 27}
-        - {x: -21, y: 24}
-        - {x: -21, y: -20}
-        - {x: -20, y: -22}
-        - {x: -8, y: -32}
-        - {x: 4, y: -32}
-        - {x: 24, y: -3}
-        - {x: 24, y: 12}
-    - name: alien_melee_2
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: alien_melee_2
       rect:
         serializedVersion: 2
         x: 128
@@ -103,16 +93,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 14, y: 27}
-        - {x: -18, y: 27}
-        - {x: -21, y: 25}
-        - {x: -21, y: -20}
-        - {x: -17, y: -32}
-        - {x: 11, y: -32}
-        - {x: 24, y: -6}
-        - {x: 24, y: 12}
-    - name: alien_melee_3
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: alien_melee_3
       rect:
         serializedVersion: 2
         x: 192
@@ -122,16 +106,8 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 13, y: 27}
-        - {x: -17, y: 27}
-        - {x: -21, y: 21}
-        - {x: -21, y: -25}
-        - {x: -10, y: -32}
-        - {x: 5, y: -32}
-        - {x: 15, y: -19}
-        - {x: 24, y: 5}
-        - {x: 24, y: 16}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

@@ -9,26 +9,29 @@ public class AudioManager : MonoBehaviour {
 	float defVolume;
 	float defPitch;
 	bool isPresent;
-	GameObject Ignore;
 	public bool Effect;
 
 	[Header("Teste de AudioEvent:")]
 	public string eventName = null;
 
 
+	void start(){
+		Musica("Soundtrack");
+	}
+
 	public void playSound(string name){
 
 		if (Effect)
-			SounEffect (name);
+			SoundEffect (name);
 		else
 			Musica (name);
 
 	}
 
-	public void SounEffect(string name){
+	public void SoundEffect(string name){
 
 
-		Ignore = new GameObject (name);
+		GameObject Ignore = new GameObject (name);
 		Ignore.AddComponent<AudioSource> ();
 
 		AudioSource Sons;
@@ -60,7 +63,7 @@ public class AudioManager : MonoBehaviour {
 					}
 
 					if(!a.Loop)
-						Destroy(GameObject.Find (name),Sons.clip.length);
+						Destroy(Ignore,Sons.clip.length);
 
 				}
 			}

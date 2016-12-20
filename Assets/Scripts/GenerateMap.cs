@@ -34,8 +34,9 @@ public class GenerateMap : MonoBehaviour {
 	Room[] rooms;
 	Room[] shuffledRooms;
 	GameObject tileMaster;
+	GameObject objectsMaster;
 
-
+	public static int coinCount;
 
 	void Start(){
 		createMap();
@@ -45,9 +46,15 @@ public class GenerateMap : MonoBehaviour {
 		if (tileMaster != null) {
 			GameObject.Destroy (tileMaster);
 		}
+		if (objectsMaster!= null){
+			GameObject.Destroy (objectsMaster);
+		}
+		coinCount = 0;
 
 		tileMaster = new GameObject() as GameObject;
 		tileMaster.gameObject.name = "==Tile Master==";
+		objectsMaster = new GameObject() as GameObject;
+		objectsMaster.gameObject.name = "==Objects Master==";
 		map = new Map ();
 		map.mapWidth = width;
 		map.mapHeight = height;
@@ -149,7 +156,7 @@ public class GenerateMap : MonoBehaviour {
 		int cEndX = 0;
 		int cEndY = 0;
 
-		for (int i = 1; i < shuffledRooms.Length-1; i++) {
+		for (int i = 1; i < shuffledRooms.Length; i++) {
 			cOriginX = shuffledRooms [i-1].originX;
 			cOriginY = shuffledRooms [i-1].originY;
 			cEndX = shuffledRooms [i].originX;
@@ -239,11 +246,15 @@ public class GenerateMap : MonoBehaviour {
 				float chance = Random.Range(0,100);
 				if(chance<enemyFill){
 					spawnEnemy(map.tiles[x,y].x,map.tiles[x,y].y);
-				}else {
+				}else{
 				chance = Random.Range(0,100);
 				if(chance<obstacleFill){
 					spawnObstacle(map.tiles[x,y].x,map.tiles[x,y].y);
 						}
+					}
+					chance = Random.Range(0,100);
+					if(chance<pickupFill){
+						spawnPickup(map.tiles[x,y].x,map.tiles[x,y].y);
 					}
 				}
 			}
@@ -254,6 +265,7 @@ public class GenerateMap : MonoBehaviour {
 		int index = Random.Range(0,enemies.Length);
 		if(enemies!=null){
 			GameObject newEnemy = Instantiate(enemies[index],new Vector3(x,y,0),transform.rotation) as GameObject;
+			newEnemy.transform.SetParent(objectsMaster.transform);
 		}
 	}
 
@@ -261,6 +273,7 @@ public class GenerateMap : MonoBehaviour {
 		int index = Random.Range(0,obstacles.Length);
 		if(enemies!=null){
 			GameObject newObstacle = Instantiate(obstacles[index],new Vector3(x,y,0),transform.rotation) as GameObject;
+			newObstacle.transform.SetParent(objectsMaster.transform);
 		}
 	}
 
@@ -268,6 +281,10 @@ public class GenerateMap : MonoBehaviour {
 		int index = Random.Range(0,pickups.Length);
 		if(enemies!=null){
 			GameObject newPickup = Instantiate(pickups[index],new Vector3(x,y,0),transform.rotation) as GameObject;
+			newPickup.transform.SetParent(objectsMaster.transform);
+			if(newPickup.tag=="Coin"){
+				coinCount++;
+			}
 		}
 	}
 

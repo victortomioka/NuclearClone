@@ -11,6 +11,7 @@ public class CharacterInput : MonoBehaviour {
 	[Range(0.0f,360.0f)]
 	public float aimSpeed = 15f;
 
+	AudioManager AMngr;
 	Transform gunMount;
 	Rigidbody2D rb;
 	Vector2 vector;
@@ -20,7 +21,7 @@ public class CharacterInput : MonoBehaviour {
 	Camera cam;
 	Transform firePoint;
 	public LayerMask dontHit;
-	public float cooldown = 1.0f;
+	public float cooldown = 0.3f;
 	float timeToFire;
 	public Rigidbody2D bullet;
 
@@ -86,6 +87,8 @@ public class CharacterInput : MonoBehaviour {
 
 	void Shoot(){
 		Rigidbody2D proj = Instantiate(bullet,gunMount.position,gunMount.rotation) as Rigidbody2D;
+		AMngr = Camera.main.GetComponent<AudioManager>();
+		AMngr.SoundEffect("TiroBoss");
 		proj.AddForce(proj.transform.right*500);
 	}
 		

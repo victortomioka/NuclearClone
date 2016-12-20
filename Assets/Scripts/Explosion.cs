@@ -8,17 +8,22 @@ public class Explosion : MonoBehaviour {
 	public float force = 500.0f;
 	public float timetoDeath = 1.0f;
 	float timer;
+	public int damage;
 
 	Collider2D[] col;
 
+	AudioManager AMngr;
+
 	void Start () {
 		StartCoroutine(selfDestruct());
+		AMngr = Camera.main.GetComponent<AudioManager>();
+		AMngr.SoundEffect("Explosion");
 		col = Physics2D.OverlapCircleAll(transform.position,explosionRadius,mask);
 		foreach(Collider2D c in col){
 			Rigidbody2D rb2D = c.gameObject.GetComponent<Rigidbody2D>();
 			IDamageable entity = c.gameObject.GetComponent<IDamageable>();
 			if(entity!=null){
-				entity.takeDamage(3);
+				entity.takeDamage(damage);
 			}
 
 			if(rb2D!=null){
